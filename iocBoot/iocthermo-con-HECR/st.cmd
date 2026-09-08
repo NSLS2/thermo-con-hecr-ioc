@@ -1,0 +1,56 @@
+#!../../bin/linux-x86_64/thermo-con-HECR
+
+#- You may have to change thermo-con-HECR to something else
+#- everywhere it appears in this file
+
+< envPaths
+#< /epics/common/xf31id1-ioc1-netsetup.cmd
+
+
+## Generic EnvSet
+epicsEnvSet("ENGINEER", "Dyon Buitenkamp x5092")
+epicsEnvSet("DEVICE_LOCATION",  "741 31ID1")
+
+# IOC-specific variables
+epicsEnvSet("SYS","XF:31ID1-CT")
+epicsEnvSet("DEV","{Env:02}")
+epicsEnvSet("IOC_PREFIX","$(SYS){IOC:Env01}")
+
+## Register all support components
+dbLoadDatabase("$(TOP)/dbd/thermo-con-HECR.dbd",0,0)
+thermo_con_HECR_registerRecordDeviceDriver(pdbbase)
+
+
+# Controller-specific variables
+epicsEnvSet("PORT","tsrv1-p1")
+epicsEnvSet("IP","10.69.58.105:4001")
+
+
+drvAsynIPPortConfigure("$(PORT)", "$(IP)", 0, 0, 0)
+asynOctetSetOutputEos("$(PORT)", 0, "\r\n")
+asynOctetSetInputEos("$(PORT)", 0, "\r\n")
+modbusInterposeConfig("$(PORT)", 2, 2000, 0)
+< HECR_modbus.cmd
+
+# ## Load record instances
+dbLoadRecords("$(TOP)/db/thermo-con-HECR.db","Sys=$(SYS), Dev=$(DEV), ASYNPORT=$(PORT)")
+dbLoadRecords("$(TOP)/db/asynRecord.db","P=$(SYS),R=$(DEV)Asyn,PORT=$(PORT),ADDR=0,IMAX=256,OMAX=256")
+
+# ## autosave/restore machinery
+# save_restoreSet_Debug(0)
+# save_restoreSet_IncompleteSetsOk(1)
+# save_restoreSet_DatedBackupFiles(1)
+
+# set_savefile_path("${TOP}/as","/save")
+# set_requestfile_path("${TOP}/as","/req")
+
+# set_pass0_restoreFile("info_positions.sav")
+# set_pass0_restoreFile("info_settings.sav")
+# set_pass1_restoreFile("info_settings.sav")
+
+# dbLoadRecords("$(EPICS_BASE)/db/save_restoreStatus.db","P=$(IOC_PREFIX)")
+# dbLoadRecords("$(EPICS_BASE)/db/iocAdminSoft.db","IOC=$(IOC_PREFIX)")
+# save_restoreSet_status_prefix("$(IOC_PREFIX)")
+
+iocInit()
+

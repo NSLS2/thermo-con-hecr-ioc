@@ -1,0 +1,367 @@
+record(ai, "$(Sys)$(Dev):InternalTemperature-I") {
+    field(DESC, "Internal sensor temperature")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(ASYNPORT)_INTERNAL_TEMPERATURE 0)MODBUS_DATA")
+    field(EGU, "degC")
+    field(ESLO, "0.01")
+    field(LINR, "SLOPE")
+    field(PREC, "2")
+    field(LOPR, "-9.90")
+    field(HOPR, "80.00")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(Sys)$(Dev):ExternalTemperature-I") {
+    field(DESC, "External sensor temperature")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(ASYNPORT)_EXTERNAL_TEMPERATURE 0)MODBUS_DATA")
+    field(EGU, "degC")
+    field(ESLO, "0.01")
+    field(LINR, "SLOPE")
+    field(PREC, "2")
+    field(LOPR, "-9.90")
+    field(HOPR, "80.00")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(Sys)$(Dev):AverageTemperature-I") {
+    field(DESC, "Average temperature")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(ASYNPORT)_AVERAGE_TEMPERATURE 0)MODBUS_DATA")
+    field(EGU, "degC")
+    field(ESLO, "0.01")
+    field(LINR, "SLOPE")
+    field(PREC, "2")
+    field(LOPR, "-9.90")
+    field(HOPR, "80.00")
+    field(SCAN, "I/O Intr")
+}
+
+record(mbbiDirect, "$(Sys)$(Dev):StatusFlag-Sts") {
+    field(DESC, "Raw controller status flag")
+    field(DTYP, "asynUInt32Digital")
+    field(INP, "@asynMask($(ASYNPORT)_STATUS_FLAG 0 0xFFFF)MODBUS_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(calc, "$(Sys)$(Dev):Status:Run-Sts") {
+    field(DESC, "Controller run status")
+    field(INPA, "$(Sys)$(Dev):StatusFlag-Sts CP MS")
+    field(CALC, "A&1")
+}
+
+record(calc, "$(Sys)$(Dev):Status:Alarm-Sts") {
+    field(DESC, "Controller alarm status")
+    field(INPA, "$(Sys)$(Dev):StatusFlag-Sts CP MS")
+    field(CALC, "(A>>1)&1")
+}
+
+record(calc, "$(Sys)$(Dev):Status:Warning-Sts") {
+    field(DESC, "Controller warning status")
+    field(INPA, "$(Sys)$(Dev):StatusFlag-Sts CP MS")
+    field(CALC, "(A>>2)&1")
+}
+
+record(mbbiDirect, "$(Sys)$(Dev):AlarmFlag1-Sts") {
+    field(DESC, "Raw controller alarm flag 1")
+    field(DTYP, "asynUInt32Digital")
+    field(INP, "@asynMask($(ASYNPORT)_ALARM_FLAG_1 0 0xFFFF)MODBUS_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(calc, "$(Sys)$(Dev):Alarm:SystemError1-Sts") {
+    field(DESC, "ERR01 system error 1")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag1-Sts CP MS")
+    field(CALC, "(A>>1)&1")
+}
+
+record(calc, "$(Sys)$(Dev):Alarm:SystemError2-Sts") {
+    field(DESC, "ERR02 system error 2")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag1-Sts CP MS")
+    field(CALC, "(A>>2)&1")
+}
+
+record(calc, "$(Sys)$(Dev):Alarm:BackupDataError-Sts") {
+    field(DESC, "ERR03 backup data error")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag1-Sts CP MS")
+    field(CALC, "(A>>3)&1")
+}
+
+record(calc, "$(Sys)$(Dev):Alarm:DCPowerSupply-Sts") {
+    field(DESC, "ERR11 DC power supply failure")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag1-Sts CP MS")
+    field(CALC, "(A>>11)&1")
+}
+
+record(calc, "$(Sys)$(Dev):Alarm:InternalSensorHigh-Sts") {
+    field(DESC, "ERR12 internal sensor high temperature")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag1-Sts CP MS")
+    field(CALC, "(A>>12)&1")
+}
+
+record(calc, "$(Sys)$(Dev):Alarm:InternalSensorLow-Sts") {
+    field(DESC, "ERR13 internal sensor low temperature")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag1-Sts CP MS")
+    field(CALC, "(A>>13)&1")
+}
+
+record(calc, "$(Sys)$(Dev):Alarm:Thermostat-Sts") {
+    field(DESC, "ERR14 thermostat alarm")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag1-Sts CP MS")
+    field(CALC, "(A>>14)&1")
+}
+
+record(calc, "$(Sys)$(Dev):Alarm:AbnormalOutput-Sts") {
+    field(DESC, "ERR15 abnormal output alarm")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag1-Sts CP MS")
+    field(CALC, "(A>>15)&1")
+}
+
+record(mbbiDirect, "$(Sys)$(Dev):AlarmFlag2-Sts") {
+    field(DESC, "Raw controller alarm flag 2")
+    field(DTYP, "asynUInt32Digital")
+    field(INP, "@asynMask($(ASYNPORT)_ALARM_FLAG_2 0 0xFFFF)MODBUS_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(calc, "$(Sys)$(Dev):Alarm:LowCirculatingFlow-Sts") {
+    field(DESC, "ERR16 low circulating flow alarm")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag2-Sts CP MS")
+    field(CALC, "A&1")
+}
+
+record(calc, "$(Sys)$(Dev):Alarm:InternalSensorDisconnect-Sts") {
+    field(DESC, "ERR17 internal sensor disconnected")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag2-Sts CP MS")
+    field(CALC, "(A>>1)&1")
+}
+
+record(calc, "$(Sys)$(Dev):Alarm:ExternalSensorDisconnect-Sts") {
+    field(DESC, "ERR18 external sensor disconnected")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag2-Sts CP MS")
+    field(CALC, "(A>>2)&1")
+}
+
+record(calc, "$(Sys)$(Dev):Alarm:AbnormalAutoTuning-Sts") {
+    field(DESC, "ERR19 abnormal auto tuning alarm")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag2-Sts CP MS")
+    field(CALC, "(A>>3)&1")
+}
+
+record(calc, "$(Sys)$(Dev):Alarm:LowFluidLevel-Sts") {
+    field(DESC, "ERR20 low fluid level alarm")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag2-Sts CP MS")
+    field(CALC, "(A>>4)&1")
+}
+
+record(calc, "$(Sys)$(Dev):Warning:TemperatureUpperLimit-Sts") {
+    field(DESC, "Temperature upper limit warning")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag2-Sts CP MS")
+    field(CALC, "(A>>12)&1")
+}
+
+record(calc, "$(Sys)$(Dev):Warning:TemperatureLowerLimit-Sts") {
+    field(DESC, "Temperature lower limit warning")
+    field(INPA, "$(Sys)$(Dev):AlarmFlag2-Sts CP MS")
+    field(CALC, "(A>>13)&1")
+}
+
+record(ai, "$(Sys)$(Dev):OutputRatio-I") {
+    field(DESC, "Controller output ratio")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(ASYNPORT)_OUTPUT_RATIO 0)MODBUS_DATA")
+    field(EGU, "%")
+    field(LOPR, "-100")
+    field(HOPR, "100")
+    field(SCAN, "I/O Intr")
+}
+
+record(mbbo, "$(Sys)$(Dev):ControlOperation-Cmd") {
+    field(DESC, "Control operation mode command")
+    field(DTYP, "asynUInt32Digital")
+    field(OUT, "@asynMask($(ASYNPORT)_CONTROL_OPERATION 0 0xFFFF)MODBUS_DATA")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(FRVL, "4")
+    field(ZRST, "Pump stop")
+    field(ONST, "Normal operation")
+    field(TWST, "Auto tuning start")
+    field(THST, "Learning control")
+    field(FRST, "External tune control")
+}
+
+record(mbbi, "$(Sys)$(Dev):ControlOperation-Sts") {
+    field(DESC, "Control operation mode readback")
+    field(DTYP, "asynUInt32Digital")
+    field(INP, "@asynMask($(ASYNPORT)_CONTROL_OPERATION_RB 0 0xFFFF)MODBUS_DATA")
+    field(SCAN, "I/O Intr")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(FRVL, "4")
+    field(ZRST, "Pump stop")
+    field(ONST, "Normal operation")
+    field(TWST, "Auto tuning start")
+    field(THST, "Learning control")
+    field(FRST, "External tune control")
+}
+
+record(ao, "$(Sys)$(Dev):TargetTemperature-SP") {
+    field(DESC, "Target temperature command")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asynMask($(ASYNPORT)_TARGET_TEMPERATURE 0 16)MODBUS_DATA")
+    field(EGU, "degC")
+    field(ESLO, "0.01")
+    field(LINR, "SLOPE")
+    field(PREC, "1")
+    field(DRVL, "10.00")
+    field(DRVH, "60.00")
+}
+
+record(ai, "$(Sys)$(Dev):TargetTemperature-RB") {
+    field(DESC, "Target temperature readback")
+    field(DTYP, "asynInt32")
+    field(INP, "@asynMask($(ASYNPORT)_TARGET_TEMPERATURE_RB 0 16)MODBUS_DATA")
+    field(EGU, "degC")
+    field(ESLO, "0.01")
+    field(LINR, "SLOPE")
+    field(PREC, "1")
+    field(LOPR, "10.00")
+    field(HOPR, "60.00")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(Sys)$(Dev):Offset-SP") {
+    field(DESC, "Temperature offset command")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(ASYNPORT)_OFFSET_VALUE 0)MODBUS_DATA")
+    field(EGU, "degC")
+    field(ESLO, "0.01")
+    field(LINR, "SLOPE")
+    field(PREC, "2")
+    field(DRVL, "-9.99")
+    field(DRVH, "9.99")
+}
+
+record(ai, "$(Sys)$(Dev):Offset-RB") {
+    field(DESC, "Temperature offset readback")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(ASYNPORT)_OFFSET_VALUE_RB 0)MODBUS_DATA")
+    field(EGU, "degC")
+    field(ESLO, "0.01")
+    field(LINR, "SLOPE")
+    field(PREC, "2")
+    field(LOPR, "-9.99")
+    field(HOPR, "9.99")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(Sys)$(Dev):PBRange-SP") {
+    field(DESC, "Proportional band range command")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asynMask($(ASYNPORT)_PB_RANGE 0 16)MODBUS_DATA")
+    field(EGU, "degC")
+    field(ESLO, "0.01")
+    field(LINR, "SLOPE")
+    field(PREC, "1")
+    field(DRVL, "0.30")
+    field(DRVH, "9.90")
+}
+
+record(ai, "$(Sys)$(Dev):PBRange-RB") {
+    field(DESC, "Proportional band range readback")
+    field(DTYP, "asynInt32")
+    field(INP, "@asynMask($(ASYNPORT)_PB_RANGE_RB 0 16)MODBUS_DATA")
+    field(EGU, "degC")
+    field(ESLO, "0.01")
+    field(LINR, "SLOPE")
+    field(PREC, "1")
+    field(LOPR, "0.30")
+    field(HOPR, "9.90")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(Sys)$(Dev):IntegralTime-SP") {
+    field(DESC, "Integral time constant command")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asynMask($(ASYNPORT)_I_CONSTANT 0 16)MODBUS_DATA")
+    field(EGU, "s")
+    field(DRVL, "1")
+    field(DRVH, "999")
+}
+
+record(ai, "$(Sys)$(Dev):IntegralTime-RB") {
+    field(DESC, "Integral time constant readback")
+    field(DTYP, "asynInt32")
+    field(INP, "@asynMask($(ASYNPORT)_I_CONSTANT_RB 0 16)MODBUS_DATA")
+    field(EGU, "s")
+    field(LOPR, "1")
+    field(HOPR, "999")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(Sys)$(Dev):DerivativeTime-SP") {
+    field(DESC, "Derivative time constant command")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asynMask($(ASYNPORT)_D_CONSTANT 0 16)MODBUS_DATA")
+    field(EGU, "s")
+    field(ESLO, "0.01")
+    field(LINR, "SLOPE")
+    field(PREC, "1")
+    field(DRVL, "0.00")
+    field(DRVH, "99.90")
+}
+
+record(ai, "$(Sys)$(Dev):DerivativeTime-RB") {
+    field(DESC, "Derivative time constant readback")
+    field(DTYP, "asynInt32")
+    field(INP, "@asynMask($(ASYNPORT)_D_CONSTANT_RB 0 16)MODBUS_DATA")
+    field(EGU, "s")
+    field(ESLO, "0.01")
+    field(LINR, "SLOPE")
+    field(PREC, "2")
+    field(LOPR, "0.00")
+    field(HOPR, "99.90")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(Sys)$(Dev):HeatOutputLimit-SP") {
+    field(DESC, "Heat output limit command")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asynMask($(ASYNPORT)_HEAT_OUTPUT_LIMIT 0 16)MODBUS_DATA")
+    field(EGU, "%")
+    field(DRVL, "0")
+    field(DRVH, "100")
+}
+
+record(ai, "$(Sys)$(Dev):HeatOutputLimit-RB") {
+    field(DESC, "Heat output limit readback")
+    field(DTYP, "asynInt32")
+    field(INP, "@asynMask($(ASYNPORT)_HEAT_OUTPUT_LIMIT_RB 0 16)MODBUS_DATA")
+    field(EGU, "%")
+    field(LOPR, "0")
+    field(HOPR, "100")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(Sys)$(Dev):CoolOutputLimit-SP") {
+    field(DESC, "Cool output limit command")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(ASYNPORT)_COOL_OUTPUT_LIMIT 0)MODBUS_DATA")
+    field(EGU, "%")
+    field(DRVL, "-100")
+    field(DRVH, "0")
+}
+
+record(ai, "$(Sys)$(Dev):CoolOutputLimit-RB") {
+    field(DESC, "Cool output limit readback")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(ASYNPORT)_COOL_OUTPUT_LIMIT_RB 0)MODBUS_DATA")
+    field(EGU, "%")
+    field(LOPR, "-100")
+    field(HOPR, "0")
+    field(SCAN, "I/O Intr")
+}
