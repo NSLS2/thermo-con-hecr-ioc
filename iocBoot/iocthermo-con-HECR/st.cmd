@@ -8,13 +8,9 @@
 
 
 ## Generic EnvSet
-epicsEnvSet("ENGINEER", "Dyon Buitenkamp x5092")
-epicsEnvSet("DEVICE_LOCATION",  "741 31ID1")
-
-# IOC-specific variables
 epicsEnvSet("SYS","XF:31ID1-CT")
-epicsEnvSet("DEV","{Env:02}")
-epicsEnvSet("IOC_PREFIX","$(SYS){IOC:Env01}")
+epicsEnvSet("DEV","{ENV}")
+epicsEnvSet("IOC_PREFIX","$(SYS){IOC:ENV}")
 
 ## Register all support components
 dbLoadDatabase("$(TOP)/dbd/thermo-con-HECR.dbd",0,0)
@@ -23,7 +19,7 @@ thermo_con_HECR_registerRecordDeviceDriver(pdbbase)
 
 # Controller-specific variables
 epicsEnvSet("PORT","tsrv1-p1")
-epicsEnvSet("IP","10.69.58.105:4001")
+epicsEnvSet("IP","192.168.127.254:4001")
 
 
 drvAsynIPPortConfigure("$(PORT)", "$(IP)", 0, 0, 0)
