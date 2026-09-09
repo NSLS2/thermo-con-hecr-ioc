@@ -4,7 +4,7 @@
 #- everywhere it appears in this file
 
 < envPaths
-#< /epics/common/xf31id1-ioc1-netsetup.cmd
+#< netsetup.cmd
 
 
 ## Generic EnvSet
