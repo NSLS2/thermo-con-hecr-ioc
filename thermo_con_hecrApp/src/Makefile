@@ -17,7 +17,10 @@ thermo_con_hecr_DBD += base.dbd
 thermo_con_hecr_DBD += asyn.dbd
 thermo_con_hecr_DBD += drvAsynIPPort.dbd
 thermo_con_hecr_DBD += modbusSupport.dbd
-thermo_con_hecr_DBD += devIocStats.dbd
+thermo_con_hecr_DBD += devIocStats.dbd 
+thermo_con_hecr_DBD += asSupport.dbd 
+thermo_con_hecr_DBD += reccaster.dbd 
+thermo_con_hecr_DBD += caPutLog.dbd
 
 # Include dbd files from all support applications:
 #thermo_con_hecr_DBD += xxx.dbd
@@ -27,6 +30,9 @@ thermo_con_hecr_DBD += devIocStats.dbd
 thermo_con_hecr_LIBS += asyn
 thermo_con_hecr_LIBS += modbus
 thermo_con_hecr_LIBS += devIocStats
+thermo_con_hecr_LIBS += autosave 
+thermo_con_hecr_LIBS += reccaster 
+thermo_con_hecr_LIBS += caPutLog
 
 # thermo_con_hecr_registerRecordDeviceDriver.cpp derives from thermo_con_hecr.dbd
 thermo_con_hecr_SRCS += thermo_con_hecr_registerRecordDeviceDriver.cpp
