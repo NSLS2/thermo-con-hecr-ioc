@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cd iocBoot/iocthermo-con-HECR && ./st.cmd
+cd iocBoot/iocthermo_con_hecr && ./st.cmd

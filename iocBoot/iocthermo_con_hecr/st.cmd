@@ -1,6 +1,6 @@
-#!../../bin/linux-x86_64/thermo-con-HECR
+#!../../bin/linux-x86_64/thermo_con_hecr
 
-#- You may have to change thermo-con-HECR to something else
+#- You may have to change thermo_con_hecr to something else
 #- everywhere it appears in this file
 
 < envPaths
@@ -13,8 +13,8 @@ epicsEnvSet("DEV","{ENV}")
 epicsEnvSet("IOC_PREFIX","$(SYS){IOC:ENV}")
 
 ## Register all support components
-dbLoadDatabase("$(TOP)/dbd/thermo-con-HECR.dbd",0,0)
-thermo_con_HECR_registerRecordDeviceDriver(pdbbase)
+dbLoadDatabase("$(TOP)/dbd/thermo_con_hecr.dbd",0,0)
+thermo_con_hecr_registerRecordDeviceDriver(pdbbase)
 
 
 # Controller-specific variables
@@ -29,7 +29,7 @@ modbusInterposeConfig("$(PORT)", 2, 2000, 0)
 < HECR_modbus.cmd
 
 # ## Load record instances
-dbLoadRecords("$(TOP)/db/thermo-con-HECR.db","Sys=$(SYS), Dev=$(DEV), ASYNPORT=$(PORT)")
+dbLoadRecords("$(TOP)/db/thermo_con_hecr.db","Sys=$(SYS), Dev=$(DEV), ASYNPORT=$(PORT)")
 dbLoadRecords("$(TOP)/db/asynRecord.db","P=$(SYS),R=$(DEV)Asyn,PORT=$(PORT),ADDR=0,IMAX=256,OMAX=256")
 
 # ## autosave/restore machinery

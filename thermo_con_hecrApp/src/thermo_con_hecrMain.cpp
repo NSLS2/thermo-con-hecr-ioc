@@ -1,4 +1,4 @@
-/* thermo-con-HECRMain.cpp */
+/* thermo_con_hecrMain.cpp */
 /* Author:  Marty Kraimer Date:    17MAR2000 */
 
 #include <stddef.h>

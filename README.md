@@ -1,4 +1,4 @@
-# thermo-con-HECR
+# thermo_con_hecr
 
 EPICS IOC support for a HECR temperature controller. The IOC communicates with the controller over Modbus/TCP and provides process variables for temperature monitoring, controller status and alarms, control-operation selection, target-temperature control, PID settings, and output limits.
 
