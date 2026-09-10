@@ -176,7 +176,7 @@ record(ai, "$(Sys)$(Dev):OutputRatio-I") {
     field(SCAN, "I/O Intr")
 }
 
-record(mbbo, "$(Sys)$(Dev):ControlOperation-Cmd") {
+record(mbbo, "$(Sys)$(Dev):ControlOperation-Sel") {
     field(DESC, "Control operation mode command")
     field(DTYP, "asynUInt32Digital")
     field(OUT, "@asynMask($(ASYNPORT)_CONTROL_OPERATION 0 0xFFFF)MODBUS_DATA")
